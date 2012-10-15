@@ -1,6 +1,6 @@
 "use strict";
 
-var txtwiki = {}
+var txtwiki = {};
 
 txtwiki.templates = {
 	"Infobox machine": "",
@@ -11,6 +11,7 @@ txtwiki.templates = {
 txtwiki.parseWikitext = function(content){
 	var parsed = "";
 
+	content = txtwiki.stripWhitespace(content);
 
 	content = txtwiki.firstPass(content);
 	content = txtwiki.secondPass(content);
@@ -26,9 +27,8 @@ txtwiki.parseWikitext = function(content){
 
 		parsed += paragraphs[i] + "\n";
 	}
-	parsed = txtwiki.stripWhitespace(parsed);
 
-	parsed = parsed.replace(/\n/g, "<br>");
+	parsed = txtwiki.stripWhitespace(parsed);
 
 	return parsed;
 }
@@ -136,12 +136,14 @@ txtwiki.firstPass = function(content){
 				continue;
 			}
 
+			/*
 			out = txtwiki.parseTemplate(content, pos, "{{", "}}");
 			if (out.text != null){
 				parsed += out.text;
 				pos = out.pos;
 				continue;
 			}
+			*/
 		}
 
 		parsed += content[pos];
@@ -257,15 +259,23 @@ txtwiki.boldItalicPass = function(content){
 
 txtwiki.stripWhitespace = function(content){
 	var parsed = "";
-	var blocks = content.split("\n");
 
+	content = content.replace(/ +/g, " ");
+	content = content.replace(/\n\n+/g, "\n\n");
+
+	var blocks = content.split("\n");
 	for (var i = 0; i < blocks.length; i++){
-		if (blocks[i].match(/^\s*$/))
-			continue;
-		if (blocks[i].match(/^==*.*==*$/))
+		if (blocks[i].match(/^\s*$/)){
+			parsed += "\n\n";
+		}
+		else if (blocks[i].match(/^==+.+==+$/))
 			parsed += blocks[i] + "\n";
 		else
-			parsed += blocks[i] + "\n\n";
+			parsed += blocks[i];
 	}
+	parsed += "\n\n\n";
+
+	parsed = parsed.replace(/(^\n*|\n*$)/g, "");
+
 	return parsed;
 }
