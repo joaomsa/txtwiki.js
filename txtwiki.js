@@ -261,7 +261,6 @@ txtwiki.stripWhitespace = function(content){
 	var parsed = "";
 
 	content = content.replace(/ +/g, " ");
-	content = content.replace(/\n\n+/g, "\n\n");
 
 	var blocks = content.split("\n");
 	for (var i = 0; i < blocks.length; i++){
@@ -273,8 +272,8 @@ txtwiki.stripWhitespace = function(content){
 		else
 			parsed += blocks[i];
 	}
-	parsed += "\n\n\n";
 
+	parsed = parsed.replace(/\n\n+/g, "\n\n");
 	parsed = parsed.replace(/(^\n*|\n*$)/g, "");
 
 	return parsed;
