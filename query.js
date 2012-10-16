@@ -7,6 +7,7 @@ function query(){
 		"action=query&" +
 		"prop=revisions&" +
 		"rvprop=content&" +
+		"rvexpandtemplates&" +
 		"format=json&" +
 		"callback=callback&" +
 		"indexpageids&" +
@@ -28,7 +29,10 @@ function callback(data){
 	}
 	var wikitext = data["query"]["pages"][pageid]["revisions"][0]["*"];
 
-	var parsed = txtwiki.parseWikitext(wikitext);
+	//var parsed = txtwiki.parseWikitext(wikitext);
+	var parsed = wikitext;
+	parsed = parsed.replace(/>/g, "&gt;");
+	parsed = parsed.replace(/</g, "&lt;");
 	parsed = parsed.replace(/\n/g, "<br>");
 
 	content.innerHTML = parsed;
