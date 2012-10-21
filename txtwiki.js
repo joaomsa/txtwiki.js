@@ -2,12 +2,6 @@
 
 var txtwiki = {};
 
-txtwiki.templates = {
-	"Infobox machine": "",
-	"Infobox website": "",
-	"Quote box": "",
-	}
-
 txtwiki.parseWikitext = function(content){
 	var parsed = "";
 
@@ -38,36 +32,6 @@ txtwiki.parseSimpleTag = function(content, pos, start, end){
 		pos += start.length;
 		var posEnd = content.indexOf(end, pos);
 		return {text: content.slice(pos, posEnd), pos: posEnd + end.length};
-	}
-	return {text: null, pos: pos};
-}
-
-txtwiki.parseTemplate = function(content, pos){
-	if (content.slice(pos, pos + 2) == "{{"){
-		var template = "";
-		pos += 2;
-		while (content.slice(pos, pos + 2) != "}}"){
-			// Deal with recursive templates.
-			if (content.slice(pos, pos + 2) == "{{"){
-				var out = txtwiki.parseTemplate(content, pos);
-				template += out.text;
-				pos = out.pos;
-			} else {
-				template += content[pos];
-				pos++;
-			}
-		}
-		pos += 2;
-
-		var text;
-		var args = template.split("|");
-		args[0] = args[0].match(/\S+(\s+\S+)*/)[0]; // Remove extraneous whitespace.
-		if (txtwiki.templates[args[0]] !== undefined)
-			text = txtwiki.templates[args[0]];
-		else
-			text = "{{" + template + "}}";
-
-		return {text: text, pos: pos};
 	}
 	return {text: null, pos: pos};
 }
@@ -135,15 +99,6 @@ txtwiki.firstPass = function(content){
 				pos = out.pos;
 				continue;
 			}
-
-			/*
-			out = txtwiki.parseTemplate(content, pos, "{{", "}}");
-			if (out.text != null){
-				parsed += out.text;
-				pos = out.pos;
-				continue;
-			}
-			*/
 		}
 
 		parsed += content[pos];
