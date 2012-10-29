@@ -1,7 +1,6 @@
 "use strict";
 
 var txtwiki = (function(){
-	var txtwiki = {};
 
 	function parseWikitext(content){
 		var parsed = "";
@@ -235,7 +234,10 @@ var txtwiki = (function(){
 		return parsed;
 	}
 
-	txtwiki.parseWikitext = parseWikitext;
+	var txtwiki = {parseWikitext : parseWikitext};
 
-	return txtwiki;
+	if (typeof module !== 'undefined' && module.exports)
+		module.exports = txtwiki;
+	else
+		return txtwiki;
 }());

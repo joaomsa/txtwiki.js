@@ -29,8 +29,8 @@ function callback(data){
 	}
 	var wikitext = data["query"]["pages"][pageid]["revisions"][0]["*"];
 
-	//var parsed = txtwiki.parseWikitext(wikitext);
-	var parsed = wikitext;
+	var parsed = txtwiki.parseWikitext(wikitext);
+
 	parsed = parsed.replace(/>/g, "&gt;");
 	parsed = parsed.replace(/</g, "&lt;");
 	parsed = parsed.replace(/\n/g, "<br>");
