@@ -31,6 +31,9 @@ var txtwiki = (function(){
 		if (content.slice(pos, pos + start.length) == start){
 			pos += start.length;
 			var posEnd = content.indexOf(end, pos);
+			if (posEnd == -1) {
+				posEnd = pos;
+			}
 			return {text: content.slice(pos, posEnd), pos: posEnd + end.length};
 		}
 		return {text: null, pos: pos};
