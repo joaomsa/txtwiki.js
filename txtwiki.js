@@ -31,6 +31,9 @@ var txtwiki = (function(){
 		if (content.slice(pos, pos + start.length) == start){
 			pos += start.length;
 			var posEnd = content.indexOf(end, pos);
+			if (posEnd == -1) {
+				posEnd = pos;
+			}
 			return {text: content.slice(pos, posEnd), pos: posEnd + end.length};
 		}
 		return {text: null, pos: pos};
@@ -40,11 +43,16 @@ var txtwiki = (function(){
 		if (content.slice(pos, pos + 2) == "[["){
 			var link = "";
 			pos += 2;
-			while (content.slice(pos, pos + 2) != "]]"){
+			while ((pos+2) < content.length && content.slice(pos, pos + 2) != "]]"){
 				if (content.slice(pos, pos + 2) == "[["){
 					var out = parseLink(content, pos);
 					link += out.text;
-					pos = out.pos;
+					if (out.pos > pos) {
+						pos = out.pos;
+					}
+					else {
+						pos++;
+					}
 				} else {
 					link += content[pos];
 					pos++;
@@ -139,7 +147,7 @@ var txtwiki = (function(){
 		return parsed;
 	}
 
-	// Strip bold and italic caracters from paragraph. */
+	// Strip bold and italic characters from paragraph. */
 	function boldItalicPass(content){
 		var toggle = [];
 		var countItalic = 0, countBold = 0;
@@ -171,7 +179,7 @@ var txtwiki = (function(){
 
 		// Treat special cases if both number of toggles odd.
 		if ((countBold % 2) + (countItalic % 2) === 2)
-			for (i = 0; i < toggle.length; i++)
+			for (i = 0; i < (toggle.length-1); i++)
 				if (toggle[i].type === "b" && toggle[i + 1].pos - toggle[i].pos !== 3){
 					pos = toggle[i].pos;
 					if ((content[pos - 2] === " " && content[pos - 2] !== " ") 
