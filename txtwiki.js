@@ -139,7 +139,7 @@ var txtwiki = (function(){
 		return parsed;
 	}
 
-	// Strip bold and italic caracters from paragraph. */
+	// Strip bold and italic characters from paragraph. */
 	function boldItalicPass(content){
 		var toggle = [];
 		var countItalic = 0, countBold = 0;
