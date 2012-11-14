@@ -172,7 +172,8 @@ var txtwiki = (function(){
 		// Treat special cases if both number of toggles odd.
 		if ((countBold % 2) + (countItalic % 2) === 2)
 			for (i = 0; i < toggle.length; i++)
-				if (toggle[i].type === "b" && toggle[i + 1].pos - toggle[i].pos !== 3){
+				if (toggle[i].type === "b"
+				&& (toggle[i + 1] === undefined || toggle[i + 1].pos - toggle[i].pos !== 3)){
 					pos = toggle[i].pos;
 					if ((content[pos - 2] === " " && content[pos - 2] !== " ") 
 					|| (content[pos - 2] !== " " && content[pos - 2] !== " ") 
@@ -183,7 +184,7 @@ var txtwiki = (function(){
 						countItalic += 1;
 					}
 					break;
-				}
+			}
 
 		// Add missing toggles at the end.
 		if (countItalic % 2 === 1){
