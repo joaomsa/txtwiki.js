@@ -1,0 +1,9 @@
+{
+	"name": "txtwiki",
+	"description": "A javascript library to convert MediaWiki markup to plaintext",
+	"version": "0.1.0",
+	"author": "Joao Sa <me@joaomsa.com>",
+	"dependencies": {
+	},
+	"main": "./txtwiki.js"
+}
