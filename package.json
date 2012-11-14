@@ -5,5 +5,11 @@
 	"author": "Joao Sa <me@joaomsa.com>",
 	"dependencies": {
 	},
+	"devDependencies": {
+		"qunit": "0.5.x"
+	},
+	"scripts": {
+		"test": "node test.js"
+	},
 	"main": "./txtwiki.js"
 }
