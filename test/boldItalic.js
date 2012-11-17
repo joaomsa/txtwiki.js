@@ -3,10 +3,11 @@
 var txtwiki = require('../txtwiki.js');
 
 (function(){
+	function parse(then, expected){
+		equal(txtwiki.parseWikitext(then), expected);
+	}
+
 	test('Bold and italic parsing', function(){
-		function parse(then, expected){
-			equal(txtwiki.parseWikitext(then), expected);
-		}
 		parse("''Italic''", "Italic");
 		parse("'''Bold'''", "Bold");
 		parse("'''''Bold Italic'''''", "Bold Italic");
@@ -27,5 +28,5 @@ var txtwiki = require('../txtwiki.js');
 		parse("hello '''bold '''''''''' blah", "hello bold ''''' blah");
 		parse("He read and reread the ''King James Bible,'' Aesop's ''Fables,'' Bunyan's ''Pilgrim's Progress,'' Defoe's ''Robinson Crusoe,'' and Franklin's ''Autobiography.'''", 
 			"He read and reread the King James Bible, Aesop's Fables, Bunyan's Pilgrim's Progress, Defoe's Robinson Crusoe, and Franklin's Autobiography.'");
-	})
+	});
 }());
