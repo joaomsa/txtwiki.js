@@ -24,6 +24,10 @@ var txtwiki = (function(){
 
 		parsed = stripWhitespace(parsed);
 
+		while(parsed.search(/{{/g)!=-1) {
+			parsed = parsed.replace(/{{[^{}}]*}}/g,"");
+		}
+
 		return parsed;
 	}
 
